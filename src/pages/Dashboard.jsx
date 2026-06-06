@@ -264,8 +264,10 @@ const Dashboard = () => {
                     ></div>
                     <span className="text-ink">{expense.category}</span>
                   </div>
-
-                  <span className="">{expense.amount}</span>
+                  {/* .toFixed(2) can formats to 2 decimal places */}
+                  <span className="">
+                    RM {Number(expense.amount).toFixed(2)}
+                  </span>
                   <span className="">{expense.date}</span>
                   <div className="flex gap-5 justify-end">
                     <button

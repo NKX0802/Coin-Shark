@@ -40,13 +40,19 @@ const AddExpenseModal = ({
 
     setLoading(true);
 
+    // The type="number" is actually giving back string
+    // parseFloat can make string to number
+    // .toFixed will make the output be string
+    // Number make the string to number again
+    const roundedAmount = Number(parseFloat(amount).toFixed(2));
+
     // Insert into supabase
     const { data, error } = await supabase
       .from("expenses")
       .insert({
         user_id: userId,
         description: description,
-        amount: Number(amount),
+        amount: roundedAmount,
         category: selectedCategory,
         date: date,
       })
