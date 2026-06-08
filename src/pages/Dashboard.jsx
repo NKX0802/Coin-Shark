@@ -5,6 +5,7 @@ import { supabase } from "../supabaseClient";
 import Navbar from "../components/Navbar";
 import AddExpenseModal from "../components/AddExpenseModal";
 import EditExpenseModal from "../components/EditExpenseModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 import {
   Wallet,
@@ -27,10 +28,12 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [expenseToDelete, setExpenseToDelete] = useState(null);
 
   useEffect(() => {
     const checkSessionAndFetch = async () => {
-      // Step A: Check if logged in
+      // Step 1: Check if logged in
       const { data: sessionData } = await supabase.auth.getSession();
       const session = sessionData.session;
 
@@ -39,9 +42,10 @@ const Dashboard = () => {
         return; // stop here, no point fetching expenses for a non-user
       }
 
+      // Inside the session have user then inside user have id
       setUserId(session.user.id);
 
-      // Step B: Fetch this user's expenses
+      // Step 2: Fetch this user's expenses
       const { data: expensesData, error } = await supabase
         .from("expenses")
         .select("*")
@@ -57,8 +61,32 @@ const Dashboard = () => {
       setLoading(false);
     };
 
+    //Run this function
     checkSessionAndFetch();
   }, [navigate]);
+
+  const handleDeleteExpense = async () => {
+    const { error } = await supabase
+      .from("expenses")
+      .delete()
+      // eq = equals
+      // "id" is the COLUMN NAME in database
+      // expenseToDelete.id is the value to equal
+      .eq("id", expenseToDelete.id);
+
+    if (error) {
+      toast.error("Couldn't remove expenses");
+      console.error(error);
+    } else {
+      // !== if different then true, only the need to delete is false so wont show in setExpenses
+      // filter goes through every  item in array then check e.id !== expenseToDelete.id
+      setExpenses(expenses.filter((e) => e.id !== expenseToDelete.id));
+      toast.success("Removed successfully");
+      setOpenConfirmModal(false);
+    }
+
+    setLoading(false);
+  };
 
   const categoryColors = {
     "Food & Drink": "#3b82f6", // blue
@@ -71,6 +99,8 @@ const Dashboard = () => {
     Other: "#6b7280", // gray
   };
 
+  // handleExpenseAdded = onExpenseAdded(AddExpenseModal.jsx)
+  // newExpense = data(AddExpenseModal.jsx)
   const handleExpenseAdded = (newExpense) => {
     setExpenses([newExpense, ...expenses]);
   };
@@ -276,7 +306,15 @@ const Dashboard = () => {
                     >
                       <Pencil size={20} strokeWidth={2.5} />
                     </button>
-                    <button className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-300 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer">
+                    <button
+                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-300 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
+                      onClick={() => {
+                        //Store the expense
+                        setExpenseToDelete(expense);
+                        //Open ConfirmDeleteModal
+                        setOpenConfirmModal(true);
+                      }}
+                    >
                       <Trash2 size={20} strokeWidth={2.5} />
                     </button>
                   </div>
@@ -302,6 +340,16 @@ const Dashboard = () => {
           onClose={() => setOpenEditModal(false)}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+        />
+      )}
+
+      {openConfirmModal && (
+        <ConfirmDeleteModal
+          onClose={() => setOpenConfirmModal(false)}
+          onConfirm={handleDeleteExpense}
+          loading={false}
+          expenseName={expenseToDelete?.description}
+          expenseToDelete={expenseToDelete}
         />
       )}
     </div>
