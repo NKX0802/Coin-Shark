@@ -89,6 +89,7 @@ const Dashboard = () => {
   };
 
   const categoryColors = {
+    // category = "Food & Drink", "Transport", "Shopping"
     "Food & Drink": "#3b82f6", // blue
     Transport: "#10b981", // green
     Shopping: "#e8703a", // orange
@@ -327,6 +328,7 @@ const Dashboard = () => {
 
       {openAddModal && (
         <AddExpenseModal
+          // Gives AddExpenseModal a way to close itself
           onClose={() => setOpenAddModal(false)}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
