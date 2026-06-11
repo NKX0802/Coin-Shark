@@ -31,7 +31,7 @@ const ConfirmLogoutModal = ({ onClose, onConfirm, loading }) => {
             disabled={loading}
             onClick={onConfirm}
           >
-            {loading ? "Deleting..." : "Delete"}
+            {loading ? "Logging out..." : "Logout"}
           </button>
         </div>
       </div>
@@ -39,4 +39,4 @@ const ConfirmLogoutModal = ({ onClose, onConfirm, loading }) => {
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmLogoutModal;

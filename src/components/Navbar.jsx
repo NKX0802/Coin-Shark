@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { LogOut, Sun, Moon } from "lucide-react";
+import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
 const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -50,12 +52,19 @@ const Navbar = () => {
         {/* Logout button */}
         <button
           className="text-ink text-xl flex items-center gap-2 p-2.5 bg-card rounded-2xl shadow border border-gray-200  will-change-transform transition-all duration-300 hover:scale-105 hover:border-danger  hover:text-danger active:scale-95 cursor-pointer"
-          onClick={handleLogout}
+          onClick={() => setOpenLogoutModal(true)}
         >
           <LogOut size={20} strokeWidth={3.5} />
           <span>Logout</span>
         </button>
       </div>
+      {openLogoutModal && (
+        <ConfirmLogoutModal
+          onClose={() => setOpenLogoutModal(false)}
+          onConfirm={handleLogout}
+          loading={false}
+        />
+      )}
     </nav>
   );
 };
