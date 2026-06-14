@@ -13,7 +13,7 @@ const SignUp = () => {
 
   //Sign Up Function
   const handleSignUp = async (e) => {
-    //Prevent reloading thw whole page
+    //Prevent reloading the whole page (When have onSubmit)
     e.preventDefault();
     setLoading(true);
 

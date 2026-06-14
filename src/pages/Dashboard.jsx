@@ -30,6 +30,7 @@ const Dashboard = () => {
   const [userId, setUserId] = useState(null);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [expenseToDelete, setExpenseToDelete] = useState(null);
+  const [expenseToEdit, setExpenseToEdit] = useState(null);
 
   useEffect(() => {
     const checkSessionAndFetch = async () => {
@@ -104,6 +105,12 @@ const Dashboard = () => {
   // newExpense = data(AddExpenseModal.jsx)
   const handleExpenseAdded = (newExpense) => {
     setExpenses([newExpense, ...expenses]);
+  };
+
+  const handleExpenseUpdated = (updatedExpense) => {
+    setExpenses(
+      expenses.map((e) => (e.id === updatedExpense.id ? updatedExpense : e)),
+    );
   };
 
   if (loading) {
@@ -278,6 +285,7 @@ const Dashboard = () => {
               </div>
 
               {/* Data rows */}
+              {/* expenses is from useState setExpenses(expensesData) */}
               {expenses.map((expense) => (
                 <div
                   key={expense.id}
@@ -303,7 +311,10 @@ const Dashboard = () => {
                   <div className="flex gap-5 justify-end">
                     <button
                       className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-300 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
-                      onClick={() => setOpenEditModal(true)}
+                      onClick={() => {
+                        setExpenseToEdit(expense);
+                        setOpenEditModal(true);
+                      }}
                     >
                       <Pencil size={20} strokeWidth={2.5} />
                     </button>
@@ -342,6 +353,8 @@ const Dashboard = () => {
           onClose={() => setOpenEditModal(false)}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          expenseToEdit={expenseToEdit}
+          onExpenseUpdated={handleExpenseUpdated}
         />
       )}
 
