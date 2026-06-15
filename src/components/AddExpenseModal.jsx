@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { useState } from "react";
 import { Bot, X } from "lucide-react";
+import { suggestCategory } from "../geminiClient";
 
 const CATEGORIES = [
   { label: "Food & Drink", color: "#3b82f6" },
@@ -26,6 +27,7 @@ const AddExpenseModal = ({
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [loading, setLoading] = useState(false);
+  const [suggestingCategory, setSuggestingCategory] = useState(false);
 
   const handleAddExpense = async () => {
     if (!description.trim()) {
@@ -71,6 +73,25 @@ const AddExpenseModal = ({
     onExpenseAdded(data);
     toast.success("Expense added!");
     onClose();
+  };
+
+  const handleSuggestCategory = async () => {
+    if (!description.trim()) {
+      toast.error("Please enter a Description");
+      return;
+    }
+
+    setSuggestingCategory(true);
+    try {
+      const suggestedCategory = await suggestCategory(description);
+      setSelectedCategory(suggestedCategory);
+      toast.success(`Suggested: ${suggestedCategory}`);
+    } catch (error) {
+      console.error("Error suggesting category:", error);
+      toast.error("Failed to get AI category suggestion");
+    } finally {
+      setSuggestingCategory(false);
+    }
   };
 
   return (
@@ -131,9 +152,15 @@ const AddExpenseModal = ({
         {/* Category label + AI button */}
         <div className="flex flex-row justify-between items-center">
           <span className="text-sm text-ink">Category</span>
-          <button className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-300 hover:scale-105 active:scale-95 cursor-pointer text-sm">
+          <button
+            className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-300 hover:scale-105 active:scale-95 cursor-pointer text-sm disabled:opacity-60"
+            disabled={suggestingCategory}
+            onClick={handleSuggestCategory}
+          >
             <Bot size={18} strokeWidth={2.5} />
-            <span>Suggest with AI</span>
+            <span>
+              {suggestingCategory ? "Thinking..." : "Suggest with AI"}
+            </span>
           </button>
         </div>
         {/* Category grid */}

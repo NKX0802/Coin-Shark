@@ -24,8 +24,11 @@ const EditExpenseModal = ({
 }) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  // new Date() gets today's date
+  // format() converts it to "yyyy-MM-dd" string for the date input
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [loading, setLoading] = useState(false);
+  const [suggestingCategory, setSuggestingCategory] = useState(false);
 
   useEffect(() => {
     if (expenseToEdit) {
