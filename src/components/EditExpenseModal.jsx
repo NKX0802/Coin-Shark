@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Bot, X } from "lucide-react";
+import { suggestCategory } from "../geminiClient";
 
 const CATEGORIES = [
   { label: "Food & Drink", color: "#3b82f6" },
@@ -87,13 +88,32 @@ const EditExpenseModal = ({
     onClose();
   };
 
+  const handleSuggestCategory = async () => {
+    if (!description.trim()) {
+      toast.error("Please enter a Description");
+      return;
+    }
+
+    setSuggestingCategory(true);
+    try {
+      const suggestedCategory = await suggestCategory(description);
+      setSelectedCategory(suggestedCategory);
+      toast.success(`Suggested: ${suggestedCategory}`);
+    } catch (error) {
+      console.error("Error suggesting category:", error);
+      toast.error("Failed to get AI category suggestion");
+    } finally {
+      setSuggestingCategory(false);
+    }
+  };
+
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 sm:px-0"
       onClick={onClose}
     >
       <div
-        className="bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5"
+        className="bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title + X */}
@@ -145,7 +165,11 @@ const EditExpenseModal = ({
         {/* Category label + AI button */}
         <div className="flex flex-row justify-between items-center">
           <span className="text-sm text-ink">Category</span>
-          <button className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-300 hover:scale-105 active:scale-95 cursor-pointer text-sm">
+          <button
+            className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-300 hover:scale-105 active:scale-95 cursor-pointer text-sm disabled:opacity-60"
+            disabled={suggestingCategory}
+            onClick={handleSuggestCategory}
+          >
             <Bot size={18} strokeWidth={2.5} />
             <span>Suggest with AI</span>
           </button>

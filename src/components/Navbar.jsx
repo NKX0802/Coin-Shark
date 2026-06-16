@@ -15,22 +15,22 @@ const Navbar = () => {
   };
 
   const toggleTheme = () => {
+    // Adds/removes "dark" class on <html> — CSS variables in index.css handle the rest
     document.documentElement.classList.toggle("dark");
     setIsDark((prev) => !prev);
   };
 
   return (
     // Navbar bar — justify-between pushes left and right groups apart
-    <nav className="w-full flex items-center justify-between px-25 py-3 -mb-6">
+    <nav className="w-full flex items-center justify-between px-4 sm:px-10 lg:px-25 py-3 -mb-6">
       {/* LEFT — logo + brand name. Change gap-1.5 to adjust space between logo and text */}
-      <div className="flex items-center -ml-15 cursor-default">
+      <div className="flex items-center -ml-7 sm:-ml-15 cursor-default">
         <img
           src="/Coin_Shark_Logo2.png"
           alt="CoinShark"
-          className="brightness-110 transition will-change-transform duration-500 hover:-rotate-15 "
-          width={200}
+          className="brightness-110 transition will-change-transform duration-500 hover:-rotate-15 w-24 sm:w-50"
         />
-        <span className="text-4xl -ml-12 text-ink will-change-transform underline-reveal decoration-20">
+        <span className="mt-1 sm:mt-0 text-2xl sm:text-4xl -ml-6 sm:-ml-12 text-ink will-change-transform underline-reveal decoration-10 sm:decoration-20">
           Coin<a className="text-accent">Shark</a>
         </span>
       </div>
@@ -43,19 +43,19 @@ const Navbar = () => {
           onClick={toggleTheme}
         >
           {isDark ? (
-            <Moon className="duration-500" size={34} strokeWidth={3} />
+            <Moon className="duration-500 size-6 sm:size-8" strokeWidth={3} />
           ) : (
-            <Sun className="duration-500 " size={34} strokeWidth={3} />
+            <Sun className="duration-500 size-6 sm:size-8" strokeWidth={3} />
           )}
         </button>
 
         {/* Logout button */}
         <button
-          className="text-ink text-xl flex items-center gap-2 p-2.5 bg-card rounded-2xl shadow border border-gray-200  will-change-transform transition-all duration-300 hover:scale-105 hover:border-danger  hover:text-danger active:scale-95 cursor-pointer"
+          className="text-ink text-sm sm:text-xl flex items-center gap-2 p-2.5 bg-card rounded-2xl shadow border border-gray-200  will-change-transform transition-all duration-300 hover:scale-105 hover:border-danger  hover:text-danger active:scale-95 cursor-pointer"
           onClick={() => setOpenLogoutModal(true)}
         >
-          <LogOut size={20} strokeWidth={3.5} />
-          <span>Logout</span>
+          <LogOut className="size-5" strokeWidth={3.5} />
+          <span className="hidden sm:inline">Logout</span>
         </button>
       </div>
       {openLogoutModal && (

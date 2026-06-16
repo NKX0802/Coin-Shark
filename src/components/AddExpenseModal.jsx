@@ -96,11 +96,11 @@ const AddExpenseModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 sm:px-0"
       onClick={onClose}
     >
       <div
-        className="bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5"
+        className="bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title + X */}
