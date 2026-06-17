@@ -69,38 +69,34 @@ The app uses a single \`expenses\` table in Supabase:
 ### Steps
 
 1. **Clone the repository**
-   \`\`\`bash
+```bash
    git clone https://github.com/YOUR_USERNAME/coin-shark.git
    cd coin-shark
-   \`\`\`
-
+```
 2. **Install dependencies**
-   \`\`\`bash
+```bash
    npm install
-   \`\`\`
-
+```
 3. **Set up environment variables** (see Configuration below)
-
 4. **Run the development server**
-   \`\`\`bash
+```bash
    npm run dev
-   \`\`\`
-
-5. Open your browser at \`http://localhost:5173\`
+```
+5. Open your browser at `http://localhost:5173`
 
 ---
 
 ## ⚙️ Configuration
 
-Create a \`.env\` file in the root folder and add your keys:
+Create a `.env` file in the root folder and add your keys:
 
-\`\`\`env
+```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 VITE_GEMINI_API_KEY=your_gemini_api_key
-\`\`\`
+```
 
-> ⚠️ **Never commit your \`.env\` file to GitHub.** Make sure \`.env\` is listed in your \`.gitignore\`.
+> ⚠️ **Never commit your `.env` file to GitHub.** Make sure `.env` is listed in your `.gitignore`.
 
 ---
 
