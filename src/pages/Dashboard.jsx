@@ -401,7 +401,7 @@ const Dashboard = () => {
                     RM {Number(expense.amount).toFixed(2)}
                   </span>
                   <span className="hidden sm:block">{expense.date}</span>
-                  <div className="flex gap-5 justify-end">
+                  <div className="flex gap-1 sm:gap-5 justify-end">
                     <button
                       className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-300 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
                       onClick={() => {
@@ -453,7 +453,10 @@ const Dashboard = () => {
       {openAddModal && (
         <AddExpenseModal
           // Gives AddExpenseModal a way to close itself
-          onClose={() => setOpenAddModal(false)}
+          onClose={() => {
+            setOpenAddModal(false);
+            setSelectedCategory("Other");
+          }}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           userId={userId}
@@ -473,7 +476,10 @@ const Dashboard = () => {
 
       {openConfirmModal && (
         <ConfirmDeleteModal
-          onClose={() => setOpenConfirmModal(false)}
+          onClose={() => {
+            setOpenEditModal(false);
+            setSelectedCategory("Other");
+          }}
           onConfirm={handleDeleteExpense}
           loading={false}
           expenseName={expenseToDelete?.description}
