@@ -4,15 +4,8 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-// import { useEffect } from "react";
-// import { suggestCategory } from "./geminiClient";
 
 const App = () => {
-  // useEffect(() => {
-  //   suggestCategory("Starbucks coffee 5.50").then((category) => {
-  //     console.log("AI suggested:", category);
-  //   });
-  // }, []);
   return (
     <BrowserRouter>
       <Toaster position="top-right" richColors duration={5000} />

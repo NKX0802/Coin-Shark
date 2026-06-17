@@ -5,13 +5,21 @@
   font-weight: 400;
 }
 
-/* html {
+html {
   transition: background-color 0.3s ease;
 }
 
-body, div, nav, span, input, button, a {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-} */
+body,
+div,
+nav,
+span,
+input,
+button,
+a {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
 
 body {
   background-color: var(--color-bg);

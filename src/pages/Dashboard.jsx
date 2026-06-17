@@ -198,11 +198,11 @@ const Dashboard = () => {
       <Navbar />
       {/* Page wrapper — adds spacing around all content */}
       <div className="px-4 sm:px-10 lg:px-25 py-7">
-        {/* Card row — lays 3 cards side by side */}
+        {/* Card row */}
         <div className="flex flex-row flex-wrap sm:flex-nowrap gap-4 sm:gap-7 mb-4 sm:mb-7">
           {/* Card 1 */}
           <div className="flex flex-col px-5 py-2 sm:p-6 flex-1 bg-card rounded-2xl shadow border border-gray-200 -gap-2 sm:gap-0">
-            {/* Cover Title and Icon */}
+            {/* Title and Icon */}
             <div className="mb-1 sm:mb-5 flex flex-row items-center justify-between">
               <span className="text-md sm:text-2xl text-accent">
                 Total Expenses
@@ -261,7 +261,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Second row — Chart */}
+        {/* Second row */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-7 mb-4 sm:mb-7">
           {/* Spending chart card */}
           <div className="flex flex-col p-6 w-full sm:w-1/2 bg-card rounded-2xl shadow border border-gray-200 gap-4">
@@ -278,7 +278,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Bar rows — each row: label + bar + amount */}
+            {/* Bar rows */}
             <div className="flex flex-col gap-4">
               {/* Unpack sortedCategories */}
               {sortedCategories.map(([category, amount]) => {
@@ -310,7 +310,6 @@ const Dashboard = () => {
 
           {/* AI Insights card */}
           <div className="hidden sm:flex flex-col justify-between p-6 w-full sm:w-1/2 bg-card rounded-2xl shadow border border-gray-200 gap-4">
-            {/* Top — header + description */}
             <div className="flex flex-col gap-3">
               <div className="mb-2 flex flex-row items-center justify-between">
                 <span className="text-sm sm:text-2xl text-accent">
@@ -328,7 +327,7 @@ const Dashboard = () => {
               </span>
             </div>
 
-            {/* Bottom — button centered */}
+            {/* Bottom */}
             <button
               className="self-center p-2.5 px-8 sm:px-20 text-base sm:text-xl text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-300 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer disabled:opacity-60"
               disabled={analyzing}
@@ -340,9 +339,9 @@ const Dashboard = () => {
         </div>
         {/* Expenses table section */}
         <div className="flex flex-col p-2 sm:p-6 bg-card rounded-2xl shadow border border-gray-200 gap-2">
-          {/* Header row — title on left, Add button on right */}
+          {/* Header row */}
           <div className="flex items-center justify-between pb-5 -mb-5">
-            {/* Title — icon left, text right */}
+            {/* Title */}
             <div className="flex gap-0.5 items-center -mb-5 sm:mb-0 ml-1 sm:ml-0">
               <div className="p-2.5">
                 <Sticker
@@ -370,7 +369,6 @@ const Dashboard = () => {
 
           <div className="p-4">
             <div className="border border-gray-300 rounded-2xl overflow-hidden">
-              {/* Header */}
               <div className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 p-3.5 bg-accent border-b border-gray-200 text-xs text-white uppercase tracking-wider">
                 <span>Description</span>
                 <span className="hidden sm:block">Category</span>

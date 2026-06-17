@@ -21,9 +21,9 @@ const Navbar = () => {
   };
 
   return (
-    // Navbar bar — justify-between pushes left and right groups apart
+    // Navbar bar
     <nav className="w-full flex items-center justify-between px-4 sm:px-10 lg:px-25 py-3 -mb-6">
-      {/* LEFT — logo + brand name. Change gap-1.5 to adjust space between logo and text */}
+      {/* LEFT */}
       <div className="flex items-center -ml-7 sm:-ml-15 cursor-default">
         <img
           src="/Coin_Shark_Logo2.png"
@@ -34,10 +34,9 @@ const Navbar = () => {
           Coin<a className="text-accent">Shark</a>
         </span>
       </div>
-      {/* RIGHT — sun + logout. Change gap-3 to adjust space between the two buttons */}
+      {/* RIGHT */}
       <div className="flex items-center gap-3">
-        {/* Sun / theme toggle button */}
-
+        {/* Theme toggle button */}
         <button
           className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-300 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
           onClick={toggleTheme}

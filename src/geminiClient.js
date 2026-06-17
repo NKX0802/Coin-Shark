@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
+// Saving the contact of GoogleGenAI
 const ai = new GoogleGenAI({
   apiKey: import.meta.env.VITE_GEMINI_API_KEY,
 });

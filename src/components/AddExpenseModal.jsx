@@ -163,7 +163,7 @@ const AddExpenseModal = ({
             </span>
           </button>
         </div>
-        {/* Category grid */}
+        {/* Category */}
         <div className="grid grid-cols-2 gap-2">
           {CATEGORIES.map((cat) => (
             <button
