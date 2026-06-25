@@ -475,7 +475,7 @@ const Dashboard = () => {
       {openConfirmModal && (
         <ConfirmDeleteModal
           onClose={() => {
-            setOpenEditModal(false);
+            setOpenConfirmModal(false);
             setSelectedCategory("Other");
           }}
           onConfirm={handleDeleteExpense}
