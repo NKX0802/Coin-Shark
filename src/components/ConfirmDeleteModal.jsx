@@ -10,7 +10,7 @@ const ConfirmDeleteModal = ({ onClose, onConfirm, loading, expenseName }) => {
         className="bg-white rounded-2xl w-full sm:w-auto sm:max-w-md gap-5 p-6 flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center gap-4">
           <span className="text-lg sm:text-2xl">Delete "{expenseName}" ?</span>
           <button onClick={onClose}>
             <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-300 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
