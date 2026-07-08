@@ -38,7 +38,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
         {/* Theme toggle button */}
         <button
-          className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-300 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
+          className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-500 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
           onClick={toggleTheme}
         >
           {isDark ? (
@@ -50,7 +50,7 @@ const Navbar = () => {
 
         {/* Logout button */}
         <button
-          className="text-ink text-sm sm:text-xl flex items-center gap-2 p-2.5 bg-card rounded-2xl shadow border border-gray-200  will-change-transform transition-all duration-300 hover:scale-105 hover:border-danger  hover:text-danger active:scale-95 cursor-pointer"
+          className="text-ink text-sm sm:text-xl flex items-center gap-2 p-2.5 bg-card rounded-2xl shadow border border-gray-200  will-change-transform transition-all duration-500 hover:scale-105 hover:border-danger  hover:text-danger active:scale-95 cursor-pointer"
           onClick={() => setOpenLogoutModal(true)}
         >
           <LogOut className="size-5" strokeWidth={3.5} />
