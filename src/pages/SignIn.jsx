@@ -69,7 +69,7 @@ const SignIn = () => {
               <label className="text-lg sm:text-2xl text-ink">Email</label>
             </div>
             <input
-              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-3000"
+              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-750"
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -83,7 +83,7 @@ const SignIn = () => {
               <label className="text-lg sm:text-2xl text-ink">Password</label>
             </div>
             <input
-              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-3000"
+              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-750"
               type="password"
               placeholder="Enter your password"
               value={password}
@@ -92,7 +92,7 @@ const SignIn = () => {
           </div>
 
           <button
-            className="text-lg sm:text-2xl text-center rounded-2xl bg-accent text-white w-full p-3 mb-3 cursor-pointer transition-all duration-3000 hover:scale-102 hover:brightness-105 active:scale-98 disabled:opacity-60"
+            className="text-lg sm:text-2xl text-center rounded-2xl bg-accent text-white w-full p-3 mb-3 cursor-pointer transition-all duration-750 hover:scale-102 hover:brightness-105 active:scale-98 disabled:opacity-60"
             type="submit"
             disabled={loading}
           >
@@ -100,7 +100,7 @@ const SignIn = () => {
           </button>
           <button
             type="button"
-            className="w-full text-lg sm:text-2xl border-4 rounded-2xl p-3 cursor-pointer transition-all duration-3000 hover:scale-102 hover:brightness-105 active:scale-98 flex items-center justify-center border-accent text-accent bg-accent/10"
+            className="w-full text-lg sm:text-2xl border-4 rounded-2xl p-3 cursor-pointer transition-all duration-750 hover:scale-102 hover:brightness-105 active:scale-98 flex items-center justify-center border-accent text-accent bg-accent/10"
             onClick={handleGoogleSignIn}
           >
             <img

@@ -23,7 +23,7 @@ const AnalysisTipsModal = ({ onClose, tips }) => {
             </span>
           </div>
           <button onClick={onClose}>
-            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-3000 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
+            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-750 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
               <X className="size-6 sm:size-8" strokeWidth={3} />
             </div>
           </button>
@@ -43,7 +43,7 @@ const AnalysisTipsModal = ({ onClose, tips }) => {
         </div>
         <div className="flex justify-center items-center mt-5">
           <button
-            className="mb-3 px-6 sm:px-10 py-3 sm:py-5 bg-accent text-white text-md sm:text-xl rounded-2xl hover:scale-105 hover:brightness-105 transition duration-3000 cursor-pointer will-change-transform active:scale-95"
+            className="mb-3 px-6 sm:px-10 py-3 sm:py-5 bg-accent text-white text-md sm:text-xl rounded-2xl hover:scale-105 hover:brightness-105 transition duration-750 cursor-pointer will-change-transform active:scale-95"
             onClick={onClose}
           >
             Got It

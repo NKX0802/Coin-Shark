@@ -329,7 +329,7 @@ const Dashboard = () => {
 
             {/* Bottom */}
             <button
-              className="self-center p-2.5 px-8 sm:px-20 text-base sm:text-xl text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-3000 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer disabled:opacity-60"
+              className="self-center p-2.5 px-8 sm:px-20 text-base sm:text-xl text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-750 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer disabled:opacity-60"
               disabled={analyzing}
               onClick={handleGetTips}
             >
@@ -357,7 +357,7 @@ const Dashboard = () => {
             {/* Add button */}
             <button
               onClick={() => setOpenAddModal(true)}
-              className="hidden justify-center items-center sm:flex flex-row p-2.5 px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-3000 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+              className="hidden justify-center items-center sm:flex flex-row p-2.5 px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-750 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
             >
               <CirclePlus
                 className="text-white size-5 sm:size-8"
@@ -403,7 +403,7 @@ const Dashboard = () => {
                   <span className="hidden sm:block">{expense.date}</span>
                   <div className="flex gap-1 sm:gap-5 justify-end">
                     <button
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-3000 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-750 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
                       onClick={() => {
                         setExpenseToEdit(expense);
                         setOpenEditModal(true);
@@ -412,7 +412,7 @@ const Dashboard = () => {
                       <Pencil size={20} strokeWidth={2.5} />
                     </button>
                     <button
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-3000 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-750 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
                       onClick={() => {
                         //Store the expense
                         setExpenseToDelete(expense);
@@ -428,7 +428,7 @@ const Dashboard = () => {
             </div>
             <div className="flex gap-2.5">
               <button
-                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-3000 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
+                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-750 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={() => setOpenAddModal(true)}
                 disabled={analyzing}
               >
@@ -436,7 +436,7 @@ const Dashboard = () => {
                 <span className="text-md text-white">Add Expense</span>
               </button>
               <button
-                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-3000 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
+                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-750 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={handleGetTips}
                 disabled={analyzing}
               >
