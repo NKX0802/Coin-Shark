@@ -12,7 +12,7 @@ const NotFound = () => {
       </div>
       <p className="text-xl sm:text-5xl text-ink sm:mb-5">Page not found</p>
       <button
-        className="flex flex-row items-center gap-3 bg-accent text-white text-lg sm:text-3xl px-3 py-2 sm:px-6 sm:py-5 will-change-transform transition duration-750 rounded-2xl hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+        className="flex flex-row items-center gap-3 bg-accent text-white text-lg sm:text-3xl px-3 py-2 sm:px-6 sm:py-5 will-change-transform transition duration-3000 rounded-2xl hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
         // Navigates to Dashboard, which will redirect to Sign In if not logged in
         onClick={() => navigate("/dashboard")}
       >
