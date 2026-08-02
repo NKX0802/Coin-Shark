@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
+/* Set the same font on every element */
 * {
   font-family: "Momo Trust Display", sans-serif;
   font-weight: 400;
 }
 
-html {
-  transition: background-color 0.5s ease;
-}
-
+/* Fade background/border color changes smoothly over 0.75s instead of
+   snapping instantly - applied to every tag used throughout the app */
+html,
 body,
 div,
 nav,
@@ -17,14 +17,17 @@ input,
 button,
 a {
   transition:
-    background-color 0.5s ease,
-    border-color 0.5s ease;
+    background-color 0.75s ease,
+    border-color 0.75s ease;
 }
 
+/* Page background uses the --color-bg variable below, so it automatically
+   updates when dark mode swaps that variable's value */
 body {
   background-color: var(--color-bg);
 }
 
+/* Custom animated underline effect (used on "Sign Up" / "Sign In" links). */
 .underline-reveal {
   background-image: linear-gradient(#2a6fdb, #2a6fdb);
   background-size: 0% 3px;
@@ -34,6 +37,7 @@ body {
   padding-bottom: 4px;
 }
 
+/* ...then grows it to 100% width on hover, animated by the transition above */
 .underline-reveal:hover {
   background-size: 100% 3px;
 }
@@ -58,11 +62,15 @@ html.dark {
   --font-momo: "Momo Trust Display", sans-serif;
 }
 
+/* Tailwind's built-in gray border colors don't come from our @theme
+   variables, so they'd stay light-gray in dark mode unless we override
+   them manually here to a darker gray */
 html.dark .border-gray-200,
 html.dark .border-gray-300 {
   border-color: #374151;
 }
 
+/* Hides the little up/down arrow spinner buttons that Chrome have*/
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

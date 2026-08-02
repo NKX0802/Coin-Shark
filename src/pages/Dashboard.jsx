@@ -55,7 +55,7 @@ const Dashboard = () => {
       const { data: expensesData, error } = await supabase
         .from("expenses")
         .select("*")
-        .order("date", { ascending: false });
+        .order("date", { ascending: false }); //Sort by latest date first
 
       if (error) {
         toast.error("Couldn't load expenses");
@@ -329,7 +329,7 @@ const Dashboard = () => {
 
             {/* Bottom */}
             <button
-              className="self-center p-2.5 px-8 sm:px-20 text-base sm:text-xl text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-500 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer disabled:opacity-60"
+              className="self-center p-2.5 px-8 sm:px-20 text-base sm:text-xl text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-[750ms] hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer disabled:opacity-60"
               disabled={analyzing}
               onClick={handleGetTips}
             >
@@ -357,7 +357,7 @@ const Dashboard = () => {
             {/* Add button */}
             <button
               onClick={() => setOpenAddModal(true)}
-              className="hidden justify-center items-center sm:flex flex-row p-2.5 px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-500 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+              className="hidden justify-center items-center sm:flex flex-row p-2.5 px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-[750ms] hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
             >
               <CirclePlus
                 className="text-white size-5 sm:size-8"
@@ -371,6 +371,7 @@ const Dashboard = () => {
             <div className="border border-gray-300 rounded-2xl overflow-hidden">
               <div className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 p-3.5 bg-accent border-b border-gray-200 text-xs text-white uppercase tracking-wider">
                 <span>Description</span>
+                {/* block is just to let it show as normal visible box */}
                 <span className="hidden sm:block">Category</span>
                 <span>Amount</span>
                 <span className="hidden sm:block">Date</span>
@@ -381,6 +382,7 @@ const Dashboard = () => {
               {expenses.map((expense) => (
                 <div
                   key={expense.id}
+                  // fr is like length and changes according to screen size
                   className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 px-4 py-3 border-b border-gray-200 items-center hover:bg-accent/3 text-ink"
                 >
                   <span className="font-medium text-ink">
@@ -401,7 +403,7 @@ const Dashboard = () => {
                   <span className="hidden sm:block">{expense.date}</span>
                   <div className="flex gap-1 sm:gap-5 justify-end">
                     <button
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-500 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-[750ms] hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
                       onClick={() => {
                         setExpenseToEdit(expense);
                         setOpenEditModal(true);
@@ -410,7 +412,7 @@ const Dashboard = () => {
                       <Pencil size={20} strokeWidth={2.5} />
                     </button>
                     <button
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-500 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-[750ms] hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
                       onClick={() => {
                         //Store the expense
                         setExpenseToDelete(expense);
@@ -426,7 +428,7 @@ const Dashboard = () => {
             </div>
             <div className="flex gap-2.5">
               <button
-                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-500 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
+                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-[750ms] will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={() => setOpenAddModal(true)}
                 disabled={analyzing}
               >
@@ -434,7 +436,7 @@ const Dashboard = () => {
                 <span className="text-md text-white">Add Expense</span>
               </button>
               <button
-                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-500 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
+                className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-[750ms] will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={handleGetTips}
                 disabled={analyzing}
               >
