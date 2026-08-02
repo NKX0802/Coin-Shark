@@ -120,7 +120,7 @@ const EditExpenseModal = ({
         <div className="flex flex-row justify-between items-center">
           <span className="text-xl font-semibold text-ink">Edit expense</span>
           <button onClick={onClose}>
-            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-750 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
+            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
               <X size={20} strokeWidth={3} />
             </div>
           </button>
@@ -129,7 +129,7 @@ const EditExpenseModal = ({
         <div className="flex flex-col gap-2">
           <span className="text-sm text-ink">Description</span>
           <input
-            className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-750 text-ink"
+            className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink"
             type="text"
             placeholder="e.g. Breakfast at Mcdonald"
             value={description}
@@ -142,7 +142,7 @@ const EditExpenseModal = ({
           <div className="flex flex-col gap-2 w-1/2">
             <span className="text-sm text-ink">Amount (RM)</span>
             <input
-              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-750 text-ink appearance-none"
+              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
               type="number"
               min={0}
               placeholder="0.00"
@@ -155,7 +155,7 @@ const EditExpenseModal = ({
           <div className="flex flex-col gap-2  w-1/2">
             <span className="text-sm text-ink">Date</span>
             <input
-              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-750 text-ink appearance-none"
+              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
@@ -166,7 +166,7 @@ const EditExpenseModal = ({
         <div className="flex flex-row justify-between items-center">
           <span className="text-sm text-ink">Category</span>
           <button
-            className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-750 hover:scale-105 active:scale-95 cursor-pointer text-sm disabled:opacity-60"
+            className="border py-2 px-2.5 flex flex-row gap-1.5 rounded-2xl text-accent bg-soft border-accent will-change-transform transition duration-600 hover:scale-105 active:scale-95 cursor-pointer text-sm disabled:opacity-60"
             disabled={suggestingCategory}
             onClick={handleSuggestCategory}
           >
@@ -199,7 +199,7 @@ const EditExpenseModal = ({
           <button
             onClick={handleEditExpense}
             disabled={loading}
-            className="px-5 py-2.5 rounded-2xl bg-accent will-change-transform text-white hover:brightness-105 cursor-pointer transition duration-750 hover:scale-105 active:scale-95 shadow-accent shadow-xs disabled:opacity-60"
+            className="px-5 py-2.5 rounded-2xl bg-accent will-change-transform text-white hover:brightness-105 cursor-pointer transition duration-600 hover:scale-105 active:scale-95 shadow-accent shadow-xs disabled:opacity-60"
           >
             {loading ? "Saving..." : "Save Changes"}
           </button>
