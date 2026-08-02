@@ -7,18 +7,23 @@
 }
 
 /* Fade background/border color changes smoothly over 0.75s instead of
-   snapping instantly - applied to every tag used throughout the app */
-html,
-body,
-div,
-nav,
-span,
-input,
-button,
-a {
-  transition:
-    background-color 0.75s ease,
-    border-color 0.75s ease;
+   snapping instantly - applied to every tag used throughout the app.
+   Wrapped in @layer base so it stays lower priority than Tailwind's
+   utility classes (unlayered CSS always wins over layered CSS,
+   which was silently stripping the transform transition off buttons). */
+@layer base {
+  html,
+  body,
+  div,
+  nav,
+  span,
+  input,
+  button,
+  a {
+    transition:
+      background-color 0.75s ease,
+      border-color 0.75s ease;
+  }
 }
 
 /* Page background uses the --color-bg variable below, so it automatically
