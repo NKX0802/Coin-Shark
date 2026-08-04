@@ -6,11 +6,8 @@
   font-weight: 400;
 }
 
-/* Fade background/border color changes smoothly over 0.75s instead of
-   snapping instantly - applied to every tag used throughout the app.
-   Wrapped in @layer base so it stays lower priority than Tailwind's
-   utility classes (unlayered CSS always wins over layered CSS,
-   which was silently stripping the transform transition off buttons). */
+/* Fade background/border color changes smoothly */
+/* Wrapped in @layer base so it stays lower priority than Tailwind's utility classes */
 @layer base {
   html,
   body,
@@ -67,9 +64,6 @@ html.dark {
   --font-momo: "Momo Trust Display", sans-serif;
 }
 
-/* Tailwind's built-in gray border colors don't come from our @theme
-   variables, so they'd stay light-gray in dark mode unless we override
-   them manually here to a darker gray */
 html.dark .border-gray-200,
 html.dark .border-gray-300 {
   border-color: #374151;

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import SignIn from "./pages/SignIn";
@@ -6,6 +7,14 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
+  // Runs once when the app first loads, on every page (not just Dashboard),
+  // so a saved dark mode choice survives a refresh instead of resetting to light
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Toaster position="top-right" richColors duration={5000} />

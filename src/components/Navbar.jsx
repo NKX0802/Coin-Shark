@@ -5,7 +5,11 @@ import { LogOut, Sun, Moon } from "lucide-react";
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(false);
+  // Read the saved choice once, on first render, so the icon matches
+  // reality immediately instead of flashing to Sun before switching to Moon
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("theme") === "dark",
+  );
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
   const navigate = useNavigate();
 
@@ -15,10 +19,12 @@ const Navbar = () => {
   };
 
   const toggleTheme = () => {
-    // Adds/removes "dark" class on <html> — CSS variables in index.css handle the rest
-    document.documentElement.classList.toggle("dark");
-    // false to true, true to false
-    setIsDark((prev) => !prev);
+    // Adds/removes "dark" class on <html> — CSS variables in index.css handle the rest.
+    // toggle() returns true if the class ended up added, false if removed.
+    const nowDark = document.documentElement.classList.toggle("dark");
+    // Save the choice
+    localStorage.setItem("theme", nowDark ? "dark" : "light");
+    setIsDark(nowDark);
   };
 
   return (

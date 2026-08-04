@@ -63,6 +63,8 @@ const AddExpenseModal = ({
       // Unwrap the array
       .single();
 
+    setLoading(false);
+
     // Handle result
     if (error) {
       toast.error("Fail adding expense.");
