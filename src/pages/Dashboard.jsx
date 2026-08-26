@@ -18,6 +18,9 @@ import {
   Trash2,
   TrendingUpDown,
   CirclePlus,
+  CircleChevronUp,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import { toast } from "sonner";
 import AnalysisTipsModal from "../components/AnalysisTipsModal";
@@ -36,6 +39,17 @@ const Dashboard = () => {
   const [openTipsModal, setOpenTipsModal] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [tips, setTips] = useState([]);
+  const [showButton, setShowButton] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expensePerPage, setExpensePerPage] = useState(
+    () => Number(localStorage.getItem("expensePerPage")) || 5,
+  );
+  const startIndex = (currentPage - 1) * expensePerPage;
+  const paginatedExpenses = expenses.slice(
+    startIndex,
+    startIndex + expensePerPage,
+  );
+  const totalPages = Math.ceil(expenses.length / expensePerPage);
 
   useEffect(() => {
     const checkSessionAndFetch = async () => {
@@ -70,6 +84,30 @@ const Dashboard = () => {
     //Run this function
     checkSessionAndFetch();
   }, [navigate]);
+
+  // Save the user's chosen page size so it survives refresh/logout
+  useEffect(() => {
+    localStorage.setItem("expensePerPage", expensePerPage);
+  }, [expensePerPage]);
+
+  //Show the Back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        //When the user scroll Y axis > 300
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll); //This let the button handleScroll be always functioning
+
+    // Clean up: remove the listener when the component closes
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleDeleteExpense = async () => {
     const { error } = await supabase
@@ -195,9 +233,26 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        expensePerPage={expensePerPage}
+        setExpensePerPage={setExpensePerPage}
+      />
       {/* Page wrapper — adds spacing around all content */}
       <div className="px-4 sm:px-10 lg:px-25 py-7">
+        <div className="hidden sm:flex sm:w-auto sm:my-5 sm:p-8 sm:-mt-1 gap-15 p-0 justify-center items-center bg-card rounded-2xl shadow border border-gray-200">
+          <button className="filter-btn">Day</button>
+          <button className="filter-btn">Week</button>
+          <button className="filter-btn">Month</button>
+          <button className="filter-btn">Year</button>
+          <button className="filter-btn">All</button>
+        </div>
+        <div className="flex flex-row w-auto h-auto my-5 -mt-2 gap-1 p-2 justify-center items-center bg-card rounded-2xl shadow border border-gray-200 sm:hidden">
+          <button className="mobile-filter-btn">Day</button>
+          <button className="mobile-filter-btn">Week</button>
+          <button className="mobile-filter-btn">Month</button>
+          <button className="mobile-filter-btn">Year</button>
+          <button className="mobile-filter-btn">All</button>
+        </div>
         {/* Card row */}
         <div className="flex flex-row flex-wrap sm:flex-nowrap gap-4 sm:gap-7 mb-4 sm:mb-7">
           {/* Card 1 */}
@@ -224,11 +279,11 @@ const Dashboard = () => {
           </div>
 
           <div className="hidden sm:flex flex-col px-5 py-2 sm:p-6 flex-1 bg-card rounded-2xl shadow border border-gray-200 -gap-2 sm:gap-0">
-            <div className="mb-5 flex flex-row items-center justify-between">
-              <span className="text-sm sm:text-2xl text-accent">
+            <div className="mb-5 flex flex-row items-center justify-between gap-2">
+              <span className="text-sm sm:text-2xl text-accent whitespace-nowrap">
                 Number of Expenses
               </span>
-              <div className="p-2.5 bg-soft rounded-2xl hidden sm:inline">
+              <div className="p-2.5 bg-soft rounded-2xl hidden sm:inline shrink-0">
                 <Receipt
                   className="text-accent size-7 sm:size-9"
                   strokeWidth={2}
@@ -242,8 +297,11 @@ const Dashboard = () => {
 
           <div className="flex flex-col px-5 py-2 sm:p-6 flex-1 bg-card rounded-2xl shadow border border-gray-200 -gap-2 sm:gap-0">
             <div className="mb-1 sm:mb-5 flex flex-row items-center justify-between">
-              <span className="text-md sm:text-2xl text-accent">
+              <span className="hidden sm:inline sm:text-2xl text-accent">
                 Average Expenses
+              </span>
+              <span className="text-md sm:hidden text-accent">
+                Avg. Expenses
               </span>
               <div className="p-2.5 bg-soft rounded-2xl hidden sm:inline">
                 <TrendingUpDown
@@ -340,9 +398,9 @@ const Dashboard = () => {
         {/* Expenses table section */}
         <div className="flex flex-col p-2 sm:p-6 bg-card rounded-2xl shadow border border-gray-200 gap-2">
           {/* Header row */}
-          <div className="flex items-center justify-between pb-5 -mb-5">
+          <div className="flex items-center justify-between pb-5 -mb-9">
             {/* Title */}
-            <div className="flex gap-0.5 items-center -mb-5 sm:mb-0 ml-1 sm:ml-0">
+            <div className="flex gap-0.5 items-center ml-1 sm:ml-0">
               <div className="p-2.5">
                 <Sticker
                   className="text-accent size-9 sm:size-15"
@@ -355,16 +413,30 @@ const Dashboard = () => {
             </div>
 
             {/* Add button */}
-            <button
-              onClick={() => setOpenAddModal(true)}
-              className="hidden justify-center items-center sm:flex flex-row p-2.5 px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
-            >
-              <CirclePlus
-                className="text-white size-5 sm:size-8"
-                strokeWidth={2}
-              />
-              <span className="text-md sm:text-xl">Add</span>
-            </button>
+            <div className="flex flex-row justify-between gap-2">
+              <button
+                onClick={handleGetTips}
+                className="text-white sm:hidden bg-accent flex flex-row justify-center p-2.5 rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+              >
+                <Bot className="text-white size-5 sm:hidden" strokeWidth={2} />
+              </button>
+              <button
+                onClick={() => setOpenAddModal(true)}
+                className="justify-center items-center sm:flex flex-row p-2.5 sm:p-2.5 sm:px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+              >
+                {/* Mobile icon */}
+                <CirclePlus
+                  className="text-white size-5 sm:hidden"
+                  strokeWidth={2}
+                />
+                {/* Laptop/desktop icon */}
+                <CirclePlus
+                  className="hidden text-white sm:block sm:size-8"
+                  strokeWidth={2}
+                />
+                <span className="hidden text-md sm:inline sm:text-xl">Add</span>
+              </button>
+            </div>
           </div>
 
           <div className="p-4">
@@ -379,11 +451,11 @@ const Dashboard = () => {
               </div>
 
               {/* Data rows */}
-              {expenses.map((expense) => (
+              {paginatedExpenses.map((expense) => (
                 <div
                   key={expense.id}
                   // fr is like length and changes according to screen size
-                  className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 px-4 py-3 border-b border-gray-200 items-center hover:bg-accent/3 text-ink"
+                  className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 px-4 py-3 border-b border-gray-200 items-center hover:bg-accent/3 text-ink text-sm sm:text-lg"
                 >
                   <span className="font-medium text-ink">
                     {expense.description}
@@ -403,6 +475,7 @@ const Dashboard = () => {
                   <span className="hidden sm:block">{expense.date}</span>
                   <div className="flex gap-1 sm:gap-5 justify-end">
                     <button
+                      title="Edit"
                       className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-600 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
                       onClick={() => {
                         setExpenseToEdit(expense);
@@ -412,6 +485,7 @@ const Dashboard = () => {
                       <Pencil size={20} strokeWidth={2.5} />
                     </button>
                     <button
+                      title="Delete"
                       className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-600 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
                       onClick={() => {
                         //Store the expense
@@ -426,16 +500,42 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-            <div className="flex gap-2.5">
+            {/* Pages */}
+            <div className="hidden sm:flex sm:items-center sm:justify-center sm:gap-5 sm:mt-5 sm:-mb-5">
               <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+                className="bg-accent text-white p-3 rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <div className="flex flex-row gap-2 items-center">
+                  <ChevronLeft size={25} strokeWidth={5} />
+                </div>
+              </button>
+              <span className="text-ink text-md">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+                className="bg-accent text-white p-3 rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <div className="flex flex-row gap-2 items-center">
+                  <ChevronRight size={25} strokeWidth={5} />
+                </div>
+              </button>
+            </div>
+
+            <div className="flex gap-2.5">
+              {/* <button
                 className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-600 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={() => setOpenAddModal(true)}
                 disabled={analyzing}
               >
                 <CirclePlus className="text-white size-6" strokeWidth={2} />
                 <span className="text-md text-white">Add Expense</span>
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 className="flex-1 sm:hidden flex justify-center items-center gap-2 w-full rounded-2xl bg-accent mt-5 py-3 hover:scale-105 hover:brightness-105 active:scale-95 transition duration-600 will-change-transform cursor-pointer shadow-xs shadow-accent/50 disabled:opacity-60"
                 onClick={handleGetTips}
                 disabled={analyzing}
@@ -444,7 +544,7 @@ const Dashboard = () => {
                 <span className="text-md text-white">
                   {analyzing ? "Analyzing..." : "Get Tips"}
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -493,6 +593,20 @@ const Dashboard = () => {
           loading={false}
           tips={tips}
         />
+      )}
+
+      {showButton && (
+        <div className="hidden sm:block fixed bottom-6 right-6 group">
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="p-3 bg-accent text-white rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-500 cursor-pointer"
+          >
+            <CircleChevronUp size={30} strokeWidth={2.5} />
+          </button>
+          <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2 whitespace-nowrap rounded-lg bg-accent text-white text-xs px-2.5 py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-500 z-10">
+            Back to Top
+          </span>
+        </div>
       )}
     </div>
   );

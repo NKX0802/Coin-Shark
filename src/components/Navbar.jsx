@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import { LogOut, Sun, Moon } from "lucide-react";
+import { LogOut, Sun, Moon, Bolt } from "lucide-react";
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
+import SettingsModal from "./SettingsModal";
 
-const Navbar = () => {
+const Navbar = ({ expensePerPage, setExpensePerPage }) => {
   // Read the saved choice once, on first render, so the icon matches
   // reality immediately instead of flashing to Sun before switching to Moon
   const [isDark, setIsDark] = useState(
     () => localStorage.getItem("theme") === "dark",
   );
   const [openLogoutModal, setOpenLogoutModal] = useState(false);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,7 +21,7 @@ const Navbar = () => {
   };
 
   const toggleTheme = () => {
-    // Adds/removes "dark" class on <html> — CSS variables in index.css handle the rest.
+    // Adds/removes "dark" class on <html>
     // toggle() returns true if the class ended up added, false if removed.
     const nowDark = document.documentElement.classList.toggle("dark");
     // Save the choice
@@ -43,18 +45,44 @@ const Navbar = () => {
       </div>
       {/* RIGHT */}
       <div className="flex items-center gap-3">
-        {/* Theme toggle button */}
-        <button
-          className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-600 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
-          onClick={toggleTheme}
-        >
-          {/* When is Dark show Moon Icon */}
-          {isDark ? (
-            <Moon className="duration-600 size-6 sm:size-8" strokeWidth={3} />
-          ) : (
-            <Sun className="duration-600 size-6 sm:size-8" strokeWidth={3} />
-          )}
-        </button>
+        <div className="relative group">
+          {/* Theme toggle button */}
+          <button
+            className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-600 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
+            onClick={toggleTheme}
+          >
+            {/* When is Dark show Moon Icon */}
+            {isDark ? (
+              <Moon
+                className="duration-600 size-6 sm:size-8 hover:-rotate-15"
+                strokeWidth={3}
+              />
+            ) : (
+              <Sun
+                className="duration-600 size-6 sm:size-8 hover:rotate-90"
+                strokeWidth={3}
+              />
+            )}
+          </button>
+          <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap rounded-lg bg-accent text-white text-xs px-2.5 py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-500 z-10">
+            Toggle theme
+          </span>
+        </div>
+        <div className="relative group">
+          {/* Theme toggle button */}
+          <button
+            onClick={() => setOpenSettingsModal(true)}
+            className="p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-600 hover:scale-105 hover:border-accent hover:text-accent hover:bg-accent/10 hover:rotate active:scale-95 cursor-pointer text-ink"
+          >
+            <Bolt
+              className="duration-600 size-6 sm:size-8 hover:rotate-90"
+              strokeWidth={3}
+            />
+          </button>
+          <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap rounded-lg bg-accent text-white text-xs px-2.5 py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-500 z-10">
+            Settings
+          </span>
+        </div>
 
         {/* Logout button */}
         <button
@@ -70,6 +98,14 @@ const Navbar = () => {
           onClose={() => setOpenLogoutModal(false)}
           onConfirm={handleLogout}
           loading={false}
+        />
+      )}
+
+      {openSettingsModal && (
+        <SettingsModal
+          onClose={() => setOpenSettingsModal(false)}
+          expensePerPage={expensePerPage}
+          setExpensePerPage={setExpensePerPage}
         />
       )}
     </nav>

@@ -48,27 +48,27 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-bg px-4 sm:px-0">
-      <div className="flex flex-col items-center justify-center rounded-2xl pt-6 px-6 sm:px-12 pb-8 w-full sm:min-w-xl sm:max-w-xl bg-card border border-gray-300 shadow-md">
-        <div className="flex flex-col items-center gap-3 mb-8">
+      <div className="flex flex-col items-center justify-center rounded-2xl pt-4 px-6 sm:px-12 pb-5 w-full sm:min-w-xl sm:max-w-xl bg-card border border-gray-300 shadow-md">
+        <div className="flex flex-col items-center gap-2 mb-4">
           <img
             src="/Coin_Shark_Logo2.png"
             alt="CoinSharkLogo"
-            className="w-52 sm:w-90 brightness-110 -mb-3.5"
+            className="w-36 sm:w-100 brightness-110 -mb-3.5"
           />
-          <h1 className="text-4xl text-accent cursor-default">Get Started</h1>
+          <h1 className="text-3xl text-accent cursor-default">Get Started</h1>
         </div>
 
         <form
           onSubmit={handleSignUp}
           className="flex flex-col items-start w-full"
         >
-          <div className="flex flex-col gap-2 mb-5 w-full">
+          <div className="flex flex-col gap-1.5 mb-3 w-full">
             <div className="flex items-center gap-2">
-              <Mail size={25} strokeWidth={3} className="text-ink" />
-              <label className="text-lg sm:text-2xl text-ink">Email</label>
+              <Mail size={22} strokeWidth={3} className="text-ink" />
+              <label className="text-md sm:text-xl text-ink">Email</label>
             </div>
             <input
-              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-600"
+              className="text-md sm:text-lg rounded-2xl p-2.5 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-600"
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -76,13 +76,13 @@ const SignUp = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-2 mb-6 w-full">
+          <div className="flex flex-col gap-1.5 mb-4 w-full">
             <div className="flex items-center gap-2">
-              <Lock size={25} strokeWidth={3} className="text-ink" />
-              <label className="text-lg sm:text-2xl text-ink">Password</label>
+              <Lock size={22} strokeWidth={3} className="text-ink" />
+              <label className="text-md sm:text-xl text-ink">Password</label>
             </div>
             <input
-              className="text-lg sm:text-xl rounded-2xl p-3 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-600"
+              className="text-md sm:text-lg rounded-2xl p-2.5 w-full border-3 border-gray-300 focus:border-accent outline-none hover:border-gray-400 transition duration-600"
               type="password"
               placeholder="Enter your password"
               value={password}
@@ -91,7 +91,7 @@ const SignUp = () => {
           </div>
 
           <button
-            className="text-lg sm:text-2xl text-center rounded-2xl bg-accent text-white w-full p-3 mb-3 cursor-pointer transition-all duration-600 hover:scale-102 hover:brightness-105 active:scale-98 disabled:opacity-60"
+            className="text-md sm:text-xl text-center rounded-2xl bg-accent text-white w-full p-2.5 mb-2.5 cursor-pointer transition-all duration-600 hover:scale-102 hover:brightness-105 active:scale-98 disabled:opacity-60"
             type="submit"
             //Disabled is on when loading is true
             disabled={loading}
@@ -100,20 +100,20 @@ const SignUp = () => {
           </button>
           <button
             type="button"
-            className="w-full text-lg sm:text-2xl border-4 rounded-2xl p-3 cursor-pointer transition-all duration-600 hover:scale-102 hover:brightness-105 active:scale-98 flex items-center justify-center border-accent text-accent bg-accent/10"
+            className="w-full text-md sm:text-xl border-4 rounded-2xl p-2.5 cursor-pointer transition-all duration-600 hover:scale-102 hover:brightness-105 active:scale-98 flex items-center justify-center border-accent text-accent bg-accent/10"
             onClick={handleGoogleSignUp}
           >
             <img
               src="/Google_Icon_Edited.png"
               alt="Google"
-              width={60}
+              width={50}
               className="-mr-1"
             />
             Sign up with Google
           </button>
         </form>
 
-        <p className="mt-6 text-sm sm:text-lg">
+        <p className="mt-4 text-sm sm:text-lg">
           Back again?{" "}
           <Link
             className="text-accent underline-reveal decoration-8 will-change-transform"

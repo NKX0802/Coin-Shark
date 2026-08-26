@@ -7,11 +7,13 @@ const ConfirmDeleteModal = ({ onClose, onConfirm, loading, expenseName }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl w-full sm:w-auto sm:max-w-md gap-5 p-6 flex flex-col"
+        className="bg-card rounded-2xl w-full sm:w-auto sm:max-w-md gap-5 p-6 flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row justify-between items-center gap-7">
-          <span className="text-lg sm:text-2xl">Delete "{expenseName}" ?</span>
+          <span className="text-lg sm:text-2xl text-ink">
+            Delete "{expenseName}" ?
+          </span>
           <button onClick={onClose}>
             <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
               <X className="size-4 sm:size-5" strokeWidth={3} />
