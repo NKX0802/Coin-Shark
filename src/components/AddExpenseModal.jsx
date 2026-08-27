@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { Bot, X } from "lucide-react";
 import { suggestCategory } from "../geminiClient";
+import { Spinner } from "@/components/ui/spinner";
 
 const CATEGORIES = [
   { label: "Food & Drink", color: "#3b82f6" },
@@ -159,10 +160,12 @@ const AddExpenseModal = ({
             disabled={suggestingCategory}
             onClick={handleSuggestCategory}
           >
-            <Bot size={18} strokeWidth={2.5} />
-            <span>
-              {suggestingCategory ? "Thinking..." : "Suggest with AI"}
-            </span>
+            <div className="flex flex-row items-center justify-center gap-2">
+              <Bot size={20} strokeWidth={2.5} />
+              <span>
+                {suggestingCategory ? "Thinking..." : "Suggest with AI"}
+              </span>
+            </div>
           </button>
         </div>
         {/* Category */}
@@ -192,7 +195,14 @@ const AddExpenseModal = ({
             disabled={loading}
             className="px-5 py-2.5 rounded-2xl bg-accent will-change-transform text-white hover:brightness-105 cursor-pointer transition duration-600 hover:scale-105 active:scale-95 shadow-accent shadow-xs disabled:opacity-60"
           >
-            {loading ? "Saving..." : "Add expense"}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Spinner className="size-5" strokeWidth={4} />
+                Saving...
+              </span>
+            ) : (
+              "Add expense"
+            )}
           </button>
         </div>
       </div>

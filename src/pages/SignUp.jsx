@@ -3,6 +3,7 @@ import { Mail, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "../supabaseClient";
+import { Spinner } from "@/components/ui/spinner";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -96,7 +97,14 @@ const SignUp = () => {
             //Disabled is on when loading is true
             disabled={loading}
           >
-            {loading ? "Creating account..." : "Sign Up"}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Spinner className="size-5" strokeWidth={4} />
+                Creating account...
+              </span>
+            ) : (
+              "Sign Up"
+            )}
           </button>
           <button
             type="button"
