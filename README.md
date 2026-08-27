@@ -12,6 +12,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-20232A?style=for-the-badge&logo=tailwind-css&logoColor=38B2AC)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Google Gemini](https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=googlegemini&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=green)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -35,6 +36,8 @@ Coin Shark is a web app where users log their daily expenses and let AI analyze 
 - 🤖 **AI auto-categorize** — Type an expense and let Gemini AI suggest the right category
 - 💡 **AI money-saving tips** — Get 3 personalized tips based on your spending habits
 - 📊 **Visual dashboard** — See total spending, averages, and a breakdown by category
+- 📄 **Pagination** — Browse your expenses page by page, with a customizable page size in Settings
+- 🌙 **Dark mode** — Toggle between light and dark themes, saved across sessions
 - 🔐 **Secure login** — Sign in with email or Google
 - 📱 **Responsive** — Works on both phone and desktop
 
@@ -112,7 +115,7 @@ VITE_GEMINI_API_KEY=your_gemini_api_key
 
 ## 🐛 Future Improvements
 
-- 📅 **Filter by month** — View expenses by time period (day, week, month, or year).
+- 📅 **Filter by time period** — View expenses by day, week, month, or year
 - 💵 **Budget goals** — Set a monthly limit and track progress
 - 📤 **Export to CSV** — Download your expenses as a spreadsheet
 
