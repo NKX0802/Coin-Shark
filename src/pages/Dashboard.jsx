@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { analyzeSpending } from "../geminiClient";
-
+import { Spinner } from "@/components/ui/spinner";
 import Navbar from "../components/Navbar";
 import AddExpenseModal from "../components/AddExpenseModal";
 import EditExpenseModal from "../components/EditExpenseModal";
@@ -50,6 +50,7 @@ const Dashboard = () => {
     startIndex + expensePerPage,
   );
   const totalPages = Math.ceil(expenses.length / expensePerPage);
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   useEffect(() => {
     const checkSessionAndFetch = async () => {
@@ -158,8 +159,12 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg text-center">
-        <p className="text-5xl sm:text-9xl text-accent">Loading...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2 sm:gap-6 bg-bg text-center">
+        <Spinner className="size-25 sm:size-75 text-accent" strokeWidth={4} />
+        <div className="flex flex-row">
+          <p className="text-xl sm:text-5xl text-accent">Loading</p>
+          <p className="text-xl sm:text-5xl text-accent">...</p>
+        </div>
       </div>
     );
   }
@@ -240,18 +245,26 @@ const Dashboard = () => {
       {/* Page wrapper — adds spacing around all content */}
       <div className="px-4 sm:px-10 lg:px-25 py-7">
         <div className="hidden sm:flex sm:w-auto sm:my-5 sm:p-8 sm:-mt-1 gap-15 p-0 justify-center items-center bg-card rounded-2xl shadow border border-gray-200">
-          <button className="filter-btn">Day</button>
-          <button className="filter-btn">Week</button>
-          <button className="filter-btn">Month</button>
-          <button className="filter-btn">Year</button>
-          <button className="filter-btn">All</button>
+          {["Day", "Week", "Month", "Year", "All"].map((option) => (
+            <button
+              key={option}
+              onClick={() => setSelectedFilter(option)}
+              className={`filter-btn ${selectedFilter === option ? "filter-btn-active" : ""}`}
+            >
+              {option}
+            </button>
+          ))}
         </div>
         <div className="flex flex-row w-auto h-auto my-5 -mt-2 gap-1 p-2 justify-center items-center bg-card rounded-2xl shadow border border-gray-200 sm:hidden">
-          <button className="mobile-filter-btn">Day</button>
-          <button className="mobile-filter-btn">Week</button>
-          <button className="mobile-filter-btn">Month</button>
-          <button className="mobile-filter-btn">Year</button>
-          <button className="mobile-filter-btn">All</button>
+          {["Day", "Week", "Month", "Year", "All"].map((option) => (
+            <button
+              key={option}
+              onClick={() => setSelectedFilter(option)}
+              className={`mobile-filter-btn ${selectedFilter === option ? "mobile-filter-btn-active" : ""}`}
+            >
+              {option}
+            </button>
+          ))}
         </div>
         {/* Card row */}
         <div className="flex flex-row flex-wrap sm:flex-nowrap gap-4 sm:gap-7 mb-4 sm:mb-7">
@@ -391,7 +404,14 @@ const Dashboard = () => {
               disabled={analyzing}
               onClick={handleGetTips}
             >
-              {analyzing ? "Analyzing..." : "Analyze my spending"}
+              {analyzing ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Spinner className="size-5" strokeWidth={4} />
+                  Analyzing...
+                </span>
+              ) : (
+                "Analyze my spending"
+              )}
             </button>
           </div>
         </div>
@@ -418,7 +438,16 @@ const Dashboard = () => {
                 onClick={handleGetTips}
                 className="text-white sm:hidden bg-accent flex flex-row justify-center p-2.5 rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
               >
-                <Bot className="text-white size-5 sm:hidden" strokeWidth={2} />
+                {analyzing ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Spinner className="size-5" strokeWidth={4} />
+                  </span>
+                ) : (
+                  <Bot
+                    className="text-white size-5 sm:hidden"
+                    strokeWidth={2}
+                  />
+                )}
               </button>
               <button
                 onClick={() => setOpenAddModal(true)}
