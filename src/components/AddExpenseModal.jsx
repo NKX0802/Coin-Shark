@@ -103,7 +103,7 @@ const AddExpenseModal = ({
       onClick={onClose}
     >
       <div
-        className="bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
+        className="scrollbar-hide bg-card rounded-2xl p-6 w-full max-w-md shadow-xl flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title + X */}
@@ -119,7 +119,7 @@ const AddExpenseModal = ({
         <div className="flex flex-col gap-2">
           <span className="text-sm text-ink">Description</span>
           <input
-            className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink"
+            className="text-md border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink"
             type="text"
             placeholder="e.g. Breakfast at Mcdonald"
             value={description}
@@ -132,7 +132,7 @@ const AddExpenseModal = ({
           <div className="flex flex-col gap-2 w-1/2">
             <span className="text-sm text-ink">Amount (RM)</span>
             <input
-              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
+              className="text-md border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
               type="number"
               min={0}
               placeholder="0.00"
@@ -145,7 +145,7 @@ const AddExpenseModal = ({
           <div className="flex flex-col gap-2  w-1/2">
             <span className="text-sm text-ink">Date</span>
             <input
-              className="border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
+              className="text-md border-3 border-gray-300 rounded-2xl p-3 hover:border-gray-400 focus:border-accent outline-none transition duration-600 text-ink appearance-none"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
@@ -162,7 +162,7 @@ const AddExpenseModal = ({
           >
             <div className="flex flex-row items-center justify-center gap-2">
               <Bot size={20} strokeWidth={2.5} />
-              <span>
+              <span className="text-md">
                 {suggestingCategory ? "Thinking..." : "Suggest with AI"}
               </span>
             </div>
@@ -184,7 +184,7 @@ const AddExpenseModal = ({
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: cat.color }}
               />
-              {cat.label}
+              <p className="text-xs">{cat.label}</p>
             </button>
           ))}
         </div>

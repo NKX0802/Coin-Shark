@@ -89,6 +89,16 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+/* Keeps scrolling working but hides the visible scrollbar track/thumb */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, newer Edge */
+}
+
 .filter-btn {
   @apply bg-soft text-accent text-xl w-90 h-10 -m-5 rounded-xl cursor-pointer will-change-transform transition-all hover:scale-105 active:scale-95 duration-400;
 }

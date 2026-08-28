@@ -505,7 +505,7 @@ const Dashboard = () => {
                   <div className="flex gap-1 sm:gap-5 justify-end">
                     <button
                       title="Edit"
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-600 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-xl will-change-transform transition-all duration-600 hover:bg-soft hover:border-accent hover:text-accent cursor-pointer"
                       onClick={() => {
                         setExpenseToEdit(expense);
                         setOpenEditModal(true);
@@ -515,7 +515,7 @@ const Dashboard = () => {
                     </button>
                     <button
                       title="Delete"
-                      className="p-2 border border-gray-300 rounded-2xl will-change-transform transition-all duration-600 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
+                      className="p-2 border border-gray-300 rounded-xl will-change-transform transition-all duration-600 hover:bg-danger/10 hover:border-danger hover:text-danger cursor-pointer"
                       onClick={() => {
                         //Store the expense
                         setExpenseToDelete(expense);
