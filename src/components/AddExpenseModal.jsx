@@ -110,7 +110,7 @@ const AddExpenseModal = ({
         <div className="flex flex-row justify-between items-center">
           <span className="text-xl font-semibold text-ink">Add expense</span>
           <button onClick={onClose}>
-            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
+            <div className="text-gray-500 bg-transparent p-2 rounded-xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
               <X size={20} strokeWidth={3} />
             </div>
           </button>

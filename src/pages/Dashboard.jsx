@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { analyzeSpending } from "../geminiClient";
 import { Spinner } from "@/components/ui/spinner";
+import { isToday, isSameWeek, isSameMonth, isSameYear } from "date-fns";
 import Navbar from "../components/Navbar";
 import AddExpenseModal from "../components/AddExpenseModal";
 import EditExpenseModal from "../components/EditExpenseModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import ChatWidget from "../components/ChatWidget";
 
 import {
   Wallet,
@@ -21,6 +23,8 @@ import {
   CircleChevronUp,
   ChevronRight,
   ChevronLeft,
+  Fish,
+  FileDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import AnalysisTipsModal from "../components/AnalysisTipsModal";
@@ -44,13 +48,29 @@ const Dashboard = () => {
   const [expensePerPage, setExpensePerPage] = useState(
     () => Number(localStorage.getItem("expensePerPage")) || 5,
   );
+  const [selectedFilter, setSelectedFilter] = useState("All");
+  const filteredExpenses = expenses.filter((expense) => {
+    //Filter only keeps true
+    const expenseDate = new Date(expense.date); //The expense date
+    const today = new Date(); //Let system know today's date
+
+    if (selectedFilter === "Day") {
+      return isToday(expenseDate);
+    } else if (selectedFilter === "Week") {
+      return isSameWeek(expenseDate, today); //Check is expenseDate same week as today
+    } else if (selectedFilter === "Month") {
+      return isSameMonth(expenseDate, today); //Check is expenseDate same month as today
+    } else if (selectedFilter === "Year") {
+      return isSameYear(expenseDate, today); //Check is expenseDate same year as today
+    }
+    return true; // "All" shows everything
+  });
   const startIndex = (currentPage - 1) * expensePerPage;
-  const paginatedExpenses = expenses.slice(
+  const paginatedExpenses = filteredExpenses.slice(
     startIndex,
     startIndex + expensePerPage,
   );
-  const totalPages = Math.ceil(expenses.length / expensePerPage);
-  const [selectedFilter, setSelectedFilter] = useState("All");
+  const totalPages = Math.ceil(filteredExpenses.length / expensePerPage);
 
   useEffect(() => {
     const checkSessionAndFetch = async () => {
@@ -157,6 +177,10 @@ const Dashboard = () => {
     );
   };
 
+  const handleExpenseDeleted = (id) => {
+    setExpenses(expenses.filter((e) => e.id !== id));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-2 sm:gap-6 bg-bg text-center">
@@ -193,11 +217,11 @@ const Dashboard = () => {
   };
 
   let totalExpenses = 0;
-  for (let i = 0; i < expenses.length; i++) {
-    totalExpenses = totalExpenses + expenses[i].amount;
+  for (let i = 0; i < filteredExpenses.length; i++) {
+    totalExpenses = totalExpenses + filteredExpenses[i].amount;
   }
 
-  const numberOfExpenses = expenses.length;
+  const numberOfExpenses = filteredExpenses.length;
 
   const averageExpenses =
     numberOfExpenses > 0 ? totalExpenses / numberOfExpenses : 0;
@@ -205,9 +229,9 @@ const Dashboard = () => {
   // Group expenses by category and sum amounts
   const categoryTotals = {};
 
-  for (let i = 0; i < expenses.length; i++) {
-    const category = expenses[i].category;
-    const amount = expenses[i].amount;
+  for (let i = 0; i < filteredExpenses.length; i++) {
+    const category = filteredExpenses[i].category;
+    const amount = filteredExpenses[i].amount;
 
     // First time see this category set it to 0 before adding
     if (!categoryTotals[category]) {
@@ -236,6 +260,23 @@ const Dashboard = () => {
     //.slice(start, stop)
     .slice(0, 3);
 
+  // Export CSV
+  const handleExportCSV = () => {
+    const headers = "Description,Amount,Category,Date\n";
+    const rows = filteredExpenses
+      .map((e) => `"${e.description}",${e.amount},${e.category},${e.date}`)
+      .join("\n");
+    const csvContent = headers + rows;
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "expenses.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div>
       <Navbar
@@ -248,7 +289,10 @@ const Dashboard = () => {
           {["Day", "Week", "Month", "Year", "All"].map((option) => (
             <button
               key={option}
-              onClick={() => setSelectedFilter(option)}
+              onClick={() => {
+                setSelectedFilter(option);
+                setCurrentPage(1);
+              }}
               className={`filter-btn ${selectedFilter === option ? "filter-btn-active" : ""}`}
             >
               {option}
@@ -259,7 +303,10 @@ const Dashboard = () => {
           {["Day", "Week", "Month", "Year", "All"].map((option) => (
             <button
               key={option}
-              onClick={() => setSelectedFilter(option)}
+              onClick={() => {
+                setSelectedFilter(option);
+                setCurrentPage(1);
+              }}
               className={`mobile-filter-btn ${selectedFilter === option ? "mobile-filter-btn-active" : ""}`}
             >
               {option}
@@ -351,31 +398,44 @@ const Dashboard = () => {
 
             {/* Bar rows */}
             <div className="flex flex-col gap-4">
-              {/* Unpack sortedCategories */}
-              {sortedCategories.map(([category, amount]) => {
-                const barWidth = maxAmount > 0 ? (amount / maxAmount) * 100 : 0;
-                return (
-                  <div key={category} className="flex flex-col gap-1">
-                    <div className="flex justify-between text-lg">
-                      <span className="text-ink text-md sm:text-xl">
-                        {category}
-                      </span>
-                      <span className="text-ink text-md sm:text-xl">
-                        RM {amount.toFixed(2)}
-                      </span>
+              {sortedCategories.length === 0 ? (
+                <div className="flex flex-col justify-center items-center gap-1 py-8">
+                  <Fish
+                    className="size-10 sm:size-20 text-accent opacity-40"
+                    strokeWidth={2}
+                  />
+                  <p className="text-xs sm:text-lg text-center text-ink p-2">
+                    No expenses yet for this period
+                  </p>
+                </div>
+              ) : (
+                /* Unpack sortedCategories */
+                sortedCategories.map(([category, amount]) => {
+                  const barWidth =
+                    maxAmount > 0 ? (amount / maxAmount) * 100 : 0;
+                  return (
+                    <div key={category} className="flex flex-col gap-1">
+                      <div className="flex justify-between text-lg">
+                        <span className="text-ink text-md sm:text-xl">
+                          {category}
+                        </span>
+                        <span className="text-ink text-md sm:text-xl">
+                          RM {amount.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-100 rounded-full h-3">
+                        <div
+                          className="h-3 rounded-full"
+                          style={{
+                            width: `${barWidth}%`,
+                            background: categoryColors[category],
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-3">
-                      <div
-                        className="h-3 rounded-full"
-                        style={{
-                          width: `${barWidth}%`,
-                          background: categoryColors[category],
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
 
@@ -421,19 +481,19 @@ const Dashboard = () => {
           <div className="flex items-center justify-between pb-5 -mb-9">
             {/* Title */}
             <div className="flex gap-0.5 items-center ml-1 sm:ml-0">
-              <div className="p-2.5">
+              <div className="p-2.5 mr-2">
                 <Sticker
-                  className="text-accent size-9 sm:size-15"
+                  className="text-accent hidden sm:block sm:size-10"
                   strokeWidth={2}
                 />
               </div>
-              <span className="text-lg sm:text-2xl text-accent">
+              <span className="-ml-2 text-lg sm:text-2xl text-accent">
                 All Expenses
               </span>
             </div>
 
             {/* Add button */}
-            <div className="flex flex-row justify-between gap-2">
+            <div className="flex flex-row justify-end gap-2 mr-3 sm:mr-4">
               <button
                 onClick={handleGetTips}
                 className="text-white sm:hidden bg-accent flex flex-row justify-center p-2.5 rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
@@ -450,8 +510,24 @@ const Dashboard = () => {
                 )}
               </button>
               <button
+                onClick={handleExportCSV}
+                className="justify-center items-center sm:flex flex-row sm:p-2.5 sm:px-2 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+              >
+                <FileDown
+                  className="text-white size-5 sm:hidden"
+                  strokeWidth={2}
+                />
+                <FileDown
+                  className="hidden text-white sm:block sm:size-8"
+                  strokeWidth={2}
+                />
+                <span className="hidden text-md sm:inline sm:text-lg">
+                  Export CSV
+                </span>
+              </button>
+              <button
                 onClick={() => setOpenAddModal(true)}
-                className="justify-center items-center sm:flex flex-row p-2.5 sm:p-2.5 sm:px-5 mr-4 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
+                className="justify-center items-center sm:flex flex-row p-2.5 sm:p-2.5 sm:px-5 text-sm sm:text-xl gap-2 text-white bg-accent rounded-2xl shadow-xs shadow-accent/50 will-change-transform transition-all duration-600 hover:scale-105 hover:brightness-105 active:scale-95 cursor-pointer"
               >
                 {/* Mobile icon */}
                 <CirclePlus
@@ -463,13 +539,13 @@ const Dashboard = () => {
                   className="hidden text-white sm:block sm:size-8"
                   strokeWidth={2}
                 />
-                <span className="hidden text-md sm:inline sm:text-xl">Add</span>
+                <span className="hidden text-md sm:inline sm:text-lg">Add</span>
               </button>
             </div>
           </div>
 
           <div className="p-4">
-            <div className="border border-gray-300 rounded-2xl overflow-hidden">
+            <div className="border border-gray-300 rounded-xl sm:rounded-2xl overflow-hidden">
               <div className="grid grid-cols-[1fr_0.8fr_80px] sm:grid-cols-[1fr_1.2fr_0.8fr_1fr_80px] gap-3 p-3.5 bg-accent border-b border-gray-200 text-xs text-white uppercase tracking-wider">
                 <span>Description</span>
                 {/* block is just to let it show as normal visible box */}
@@ -530,24 +606,24 @@ const Dashboard = () => {
               ))}
             </div>
             {/* Pages */}
-            <div className="hidden sm:flex sm:items-center sm:justify-center sm:gap-5 sm:mt-5 sm:-mb-5">
+            <div className="flex items-center justify-center gap-2 sm:gap-5 mt-2 sm:mt-5 -mb-3 sm:-mb-5">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
-                className="bg-accent text-white p-3 rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                className="bg-accent text-white p-1 sm:p-3 rounded-md sm:rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <div className="flex flex-row gap-2 items-center">
                   <ChevronLeft size={25} strokeWidth={5} />
                 </div>
               </button>
-              <span className="text-ink text-md">
+              <span className="text-ink text-sm sm:text-lg">
                 Page {currentPage} of {totalPages}
               </span>
 
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => p + 1)}
-                className="bg-accent text-white p-3 rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                className="bg-accent text-white p-1 sm:p-3 rounded-md sm:rounded-xl will-change-transform transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <div className="flex flex-row gap-2 items-center">
                   <ChevronRight size={25} strokeWidth={5} />
@@ -624,8 +700,14 @@ const Dashboard = () => {
         />
       )}
 
+      <ChatWidget
+        userId={userId}
+        onExpenseAdded={handleExpenseAdded}
+        onExpenseDeleted={handleExpenseDeleted}
+      />
+
       {showButton && (
-        <div className="hidden sm:block fixed bottom-6 right-6 group">
+        <div className="hidden sm:block fixed bottom-24 right-6 group">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="p-3 bg-accent text-white rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-500 cursor-pointer"

@@ -65,7 +65,7 @@ const Navbar = ({ expensePerPage, setExpensePerPage }) => {
             )}
           </button>
           <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap rounded-lg bg-accent text-white text-xs px-2.5 py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-500 z-10">
-            Toggle theme
+            Toggle Theme
           </span>
         </div>
         <div className="relative group">
@@ -87,10 +87,10 @@ const Navbar = ({ expensePerPage, setExpensePerPage }) => {
         {/* Logout button */}
         <div className="relative group">
           <button
-            className="text-ink text-sm sm:text-xl flex items-center gap-2 p-2 sm:p-2.5 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-600 hover:scale-105 hover:border-danger hover:text-danger active:scale-95 cursor-pointer"
+            className="text-ink text-sm sm:text-xl flex items-center gap-2 p-2 bg-card rounded-2xl shadow border border-gray-200 will-change-transform transition-all duration-600 hover:scale-105 hover:border-danger hover:text-danger active:scale-95 cursor-pointer"
             onClick={() => setOpenLogoutModal(true)}
           >
-            <LogOut className="size-5" strokeWidth={3.5} />
+            <LogOut className="size-6 sm:size-8" strokeWidth={3.5} />
             <span className="hidden sm:inline">Logout</span>
           </button>
           <span className="sm:hidden pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 whitespace-nowrap rounded-lg bg-accent text-white text-xs px-2.5 py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-500 z-10">

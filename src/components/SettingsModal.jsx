@@ -28,7 +28,7 @@ const SettingsModal = ({ onClose, expensePerPage, setExpensePerPage }) => {
         <div className="flex flex-row justify-between items-center">
           <span className="text-lg sm:text-2xl text-ink">Settings</span>
           <button onClick={onClose}>
-            <div className="text-gray-500 bg-transparent p-2 rounded-2xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
+            <div className="text-gray-500 bg-transparent p-2 rounded-xl will-change-transform transition duration-600 hover:text-danger hover:bg-danger/10 hover:rotate-90 hover:scale-105 active:scale-95 cursor-pointer">
               <X className="size-4 sm:size-5" strokeWidth={3} />
             </div>
           </button>
