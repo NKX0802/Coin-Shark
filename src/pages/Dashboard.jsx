@@ -703,6 +703,7 @@ const Dashboard = () => {
       <ChatWidget
         userId={userId}
         onExpenseAdded={handleExpenseAdded}
+        onExpenseUpdated={handleExpenseUpdated}
         onExpenseDeleted={handleExpenseDeleted}
       />
 
