@@ -266,8 +266,11 @@ export async function runAgent(userMessage, history, ctx, onStep) {
     { role: "user", parts: [{ text: userMessage }] },
   ];
 
+  // Rows from the most recent search, so the UI can render them as real rows
+  // instead of leaving the model to describe them in prose
+  let lastSearch = null;
+
   for (let turn = 0; turn < 6; turn++) {
-    console.log(`[agent] turn ${turn}, contents:`, JSON.stringify(contents));
     const response = await ai.models.generateContent({
       model: "gemini-3.1-flash-lite",
       contents,
@@ -287,7 +290,8 @@ export async function runAgent(userMessage, history, ctx, onStep) {
     });
 
     const calls = response.functionCalls;
-    if (!calls?.length) return { text: response.text };
+    // No tool call means the model is done acting and wants to talk
+    if (!calls?.length) return { text: response.text, candidates: lastSearch };
 
     const results = await Promise.all(
       calls.map(async (c) => {
@@ -303,7 +307,13 @@ export async function runAgent(userMessage, history, ctx, onStep) {
           console.error(`Tool ${c.name} threw:`, err);
           out = { error: String(err?.message || err) };
         }
-        console.log(`[agent] ${c.name}`, c.args, "→", out);
+        // Keep the rows so the UI can show them; a later write clears them so
+        // we never render rows the agent has already deleted or changed
+        if (c.name === "search_expenses" && out.expenses?.length) {
+          lastSearch = out.expenses;
+        } else if (c.name !== "search_expenses" && !out.error) {
+          lastSearch = null;
+        }
         return { name: c.name, response: out };
       }),
     );
@@ -322,7 +332,6 @@ export async function runAgent(userMessage, history, ctx, onStep) {
       role: "user",
       parts: results.map((r) => ({ functionResponse: r })),
     });
-    // Part 3 goes here — run the tools, push the feedback
   }
 
   return { text: "That took too many steps — could you rephrase?" };

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
 import { runAgent } from "../geminiClient";
-import { STEP_LABELS } from "../agentTools";
+import { STEP_LABELS, toolImpl } from "../agentTools";
 import { toast } from "sonner";
 import { Bot, MessageCircle, Send, Trash2, X } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
@@ -65,7 +64,12 @@ const ChatWidget = ({
 
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: result.text || "I couldn't quite catch that." },
+        {
+          from: "bot",
+          text: result.text || "I couldn't quite catch that.",
+          // Rows from the agent's last search, rendered below the reply
+          candidates: result.candidates,
+        },
       ]);
     } catch (err) {
       console.error(err);
@@ -81,20 +85,20 @@ const ChatWidget = ({
     }
   };
 
+  // Clicking the trash icon on a row runs the same tool the agent would have
   const handleDeleteCandidate = async (expense) => {
-    const { error } = await supabase
-      .from("expenses")
-      .delete()
-      .eq("id", expense.id);
+    const result = await toolImpl.delete_expense(
+      { id: expense.id },
+      { userId, onExpenseDeleted },
+    );
 
-    if (error) {
+    if (result.error) {
       toast.error("Failed to delete expense.");
-      console.error(error);
+      console.error(result.error);
       return;
     }
 
     toast.success("Expense Deleted!");
-    onExpenseDeleted(expense.id);
     setMessages((prev) => [
       ...prev,
       {
